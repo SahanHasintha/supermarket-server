@@ -10,7 +10,7 @@ export class UserService {
   async register(createUserDto: CreateUserDto) {
     const { name, email, password } = createUserDto;
 
-    // Check if user already exists
+    // Check if user already exist
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
