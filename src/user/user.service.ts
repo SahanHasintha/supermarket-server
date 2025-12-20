@@ -1,11 +1,12 @@
-import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
+import { Injectable, ConflictException, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async register(createUserDto: CreateUserDto) {
     const { name, email, password } = createUserDto;
@@ -49,5 +50,29 @@ export class UserService {
     } catch (error) {
       throw new BadRequestException('Failed to create user');
     }
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
+    const refreshToken = await this.jwtService.signAsync(payload, { expiresIn: '7d' });
+
+    return {
+      accessToken,
+      refreshToken,
+      user,
+    };
   }
 }
