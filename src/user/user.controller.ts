@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/create-user.dto';
 import { Response } from 'express';
 
-@Controller('users')
+@Controller('auth')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
