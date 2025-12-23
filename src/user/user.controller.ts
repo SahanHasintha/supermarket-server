@@ -1,8 +1,8 @@
-import { Controller, Post, Body, ValidationPipe, HttpStatus, HttpCode, Res } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe, HttpStatus, HttpCode, Res, UnauthorizedException, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/create-user.dto';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('auth')
 export class UserController {
@@ -34,4 +34,28 @@ export class UserController {
       },
     };
   }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.CREATED)
+  async refreshToken(@Req() req: Request, @Res({ passthrough: true }) res: Response,) {
+    const refreshTokenOld = req.cookies.refreshToken;
+    if (!refreshTokenOld) {
+      throw new UnauthorizedException('No refresh token provided');
+    }
+    const userData = await this.userService.refreshToken(refreshTokenOld);
+    const { accessToken, refreshToken, ...user } = userData;
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
+    return {
+      accessToken,
+      user: {
+        id: user.user.id,
+        email: user.user.email,
+      },
+    };
+  }
+
 }

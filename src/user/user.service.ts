@@ -75,4 +75,21 @@ export class UserService {
       user,
     };
   }
+
+  async refreshToken(refreshToken: string) {
+    const decoded = await this.jwtService.verifyAsync(refreshToken);
+    const user = await this.prisma.user.findUnique({
+      where: { id: decoded.sub },
+    });
+    if (!user) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
+    return {
+      accessToken,
+      refreshToken,
+      user,
+    };
+  }
 }
