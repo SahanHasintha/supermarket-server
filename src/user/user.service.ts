@@ -31,6 +31,7 @@ export class UserService {
           name,
           email,
           password: hashedPassword,
+          role: createUserDto.role ?? 'CLIENT'
         },
         select: {
           id: true,
@@ -65,7 +66,7 @@ export class UserService {
       throw new UnauthorizedException('Invalid password');
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
     const refreshToken = await this.jwtService.signAsync(payload, { expiresIn: '7d' });
 
