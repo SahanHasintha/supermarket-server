@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly configService: ConfigService) {
+    console.log("configService", configService);
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -14,23 +15,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    /*
-      payload is the decoded JWT payload.
-      Example:
-      {
-        sub: "userId",
-        email: "test@mail.com",
-        role: "admin",
-        iat: 123456,
-        exp: 123999
-      }
-    */
-
+    console.log("payload", payload);
     if (!payload) {
       throw new UnauthorizedException();
     }
 
-    // This object will be attached to req.user
     return {
       id: payload.sub,
       email: payload.email,
