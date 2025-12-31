@@ -31,6 +31,7 @@ export class UserController {
       user: {
         id: user.user.id,
         email: user.user.email,
+        role: user.user.role,
       },
     };
   }
@@ -54,6 +55,7 @@ export class UserController {
       user: {
         id: user.user.id,
         email: user.user.email,
+        role: user.user.role,
       },
     };
   }

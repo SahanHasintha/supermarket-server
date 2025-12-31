@@ -23,7 +23,6 @@ import {
         }
     
         const request = context.switchToHttp().getRequest();
-        console.log("request", request);
         const user = request.user;
         console.log("user", user);
     
