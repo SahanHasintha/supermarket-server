@@ -60,4 +60,13 @@ export class UserController {
     };
   }
 
+  @Post('logout')
+  @HttpCode(HttpStatus.CREATED)
+  async logout(@Res({ passthrough: true }) res: Response,) {
+    res.clearCookie('refreshToken');
+    return {
+      message: 'Logged out successfully',
+    };
+  }
+
 }
