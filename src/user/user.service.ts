@@ -79,6 +79,7 @@ export class UserService {
 
   async refreshToken(refreshToken: string) {
     const decoded = await this.jwtService.verifyAsync(refreshToken);
+    console.log("decoded ",decoded);
     const user = await this.prisma.user.findUnique({
       where: { id: decoded.sub },
     });

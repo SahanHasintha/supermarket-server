@@ -30,9 +30,9 @@ model User {
 model Product {
   id          String   @id @default(cuid())
   name        String
-  price       Float    // or Decimal for precise currency
-  description String?  // Optional
-  image       String?  // Optional
+  price       Float    
+  image       String[] 
+  description String?   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

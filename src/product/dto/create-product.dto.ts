@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsOptional, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsOptional, IsUrl, IsArray } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateProductDto {
@@ -11,11 +11,12 @@ export class CreateProductDto {
   @Transform(({ value }) => parseFloat(value))
   price: number;
 
+  @IsArray()
+  image: string[];
+  
   @IsOptional()
   @IsString()
   description?: string;
 
-  @IsOptional()
-  @IsString()
-  image?: string;
+
 }
