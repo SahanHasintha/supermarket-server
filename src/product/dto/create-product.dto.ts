@@ -20,3 +20,25 @@ export class CreateProductDto {
 
 
 }
+
+export class UpdateProductDto {
+  @IsNotEmpty()
+  @IsString()
+  id: string;
+
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Transform(({ value }) => parseFloat(value))
+  price: number;
+
+  @IsArray()
+  image: string[];
+  
+  @IsOptional()
+  @IsString()
+  description?: string;
+}

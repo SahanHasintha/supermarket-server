@@ -1,6 +1,6 @@
-import { Controller, Post, Body, ValidationPipe, HttpStatus, HttpCode, UseGuards, Get} from "@nestjs/common";
+import { Controller, Post, Body, ValidationPipe, HttpStatus, HttpCode, UseGuards, Get, Patch} from "@nestjs/common";
 import { ProductService } from "./product.service";
-import { CreateProductDto } from "./dto/create-product.dto";
+import { CreateProductDto, UpdateProductDto } from "./dto/create-product.dto";
 import { RolesGuard } from "src/auth/guards/roles.guard";
 import { AuthGuard } from "@nestjs/passport";
 import { Roles } from "src/common/decorators/roles.decorator";
@@ -23,5 +23,13 @@ export class ProductController {
   @HttpCode(HttpStatus.OK)
   async getProducts() {
     return this.productService.getProducts();
+  }
+
+  @Patch()
+  @HttpCode(HttpStatus.OK)
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  async updateProduct(@Body(ValidationPipe) updateProductDto: UpdateProductDto) {
+    return this.productService.updateProduct(updateProductDto);
   }
 }
