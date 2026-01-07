@@ -1,5 +1,5 @@
 import { UploadService } from "./upload.service";
-import {Controller, Get, Query} from "@nestjs/common";
+import {Controller, Delete, Get, Query, Body} from "@nestjs/common";
 
 @Controller('uploads')
 export class UploadController {
@@ -11,5 +11,12 @@ export class UploadController {
         @Query('contentType') contentType?: string
     ) {
         return this.uploadService.generateUploadUrl(key, contentType);
+    }
+
+    @Delete('delete-images')
+    async deleteImages(
+        @Body('keys') keys: string[]
+    ) {
+        return this.uploadService.deleteImages(keys);
     }
 }
