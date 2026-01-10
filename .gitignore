@@ -142,3 +142,8 @@ docker-compose.override.yml
 *.tar.gz
 .cache/
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
