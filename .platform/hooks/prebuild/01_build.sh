@@ -6,3 +6,4 @@ npm install
 # Build the application
 npm run build
 
+echo "Build completed successfully!"
