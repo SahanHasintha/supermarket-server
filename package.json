@@ -4,21 +4,26 @@
   "description": "Retail Shop Backend API",
   "main": "dist/main.js",
  "scripts": {
-    "build": "npx nest build",
+    "build": "nest build",
+    "build:watch": "nest build --watch",
 
     "start": "node dist/main.js",
-    "start:prod": "node dist/main.js",
-
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main.js",
 
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:deploy": "prisma migrate deploy",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "prisma db seed",
 
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "db:generate": "npm run prisma:generate",
+    "db:migrate": "npm run prisma:migrate",
+    "db:deploy": "npm run prisma:migrate:deploy",
+    "db:studio": "npm run prisma:studio",
 
-    "postinstall": "npm run prisma:generate && npm run prisma:deploy"
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "keywords": [
     "nestjs",
