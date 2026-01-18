@@ -10,6 +10,7 @@ export class UploadController {
         @Query('key') key: string,
         @Query('contentType') contentType?: string
     ) {
+        console.log("key", key);
         return this.uploadService.generateUploadUrl(key, contentType);
     }
 

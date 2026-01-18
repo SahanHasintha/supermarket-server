@@ -16,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     UserModule,
     ProductModule,
-    // UploadModule,
+    UploadModule,
     AuthModule,
   ],
 })
