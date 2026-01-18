@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from './prisma/prisma.module';
+import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { UploadModule } from './uploads/upload.module';
@@ -13,10 +13,10 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
     }),
     AwsModule,
-    PrismaModule,
+    DatabaseModule,
     UserModule,
     ProductModule,
-    UploadModule,
+    // UploadModule,
     AuthModule,
   ],
 })

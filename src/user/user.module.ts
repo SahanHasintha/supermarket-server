@@ -4,12 +4,14 @@ import { UserController } from './user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
   imports: [
+    DatabaseModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
